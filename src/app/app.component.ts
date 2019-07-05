@@ -9,8 +9,6 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   title = 'htask';
   items: any[] = [];
-  starCount: 5;
-  filteredOptions: Observable<any[]>;
 
   constructor(private http: HttpClient){
 
@@ -26,9 +24,15 @@ export class AppComponent implements OnInit {
   }
 
   onRatingChanged(rating, item){
-    console.dir("need to reorder")
     item.rating = rating;
+    this._filter();
   }
 
-
+  private _filter(){
+    this.items.sort((a, b) => {
+        if (a.rating < b.rating) return 1;
+        else if (a.rating > b.rating) return -1;
+        else return 0;
+      });
+    }
 }
