@@ -5,9 +5,10 @@
   </h1>
 </div>
 <h2>Movies</h2>
+<button (click)="toogleRandomRating()"> {{randomRatingString}} Random Rating </button>
 <mat-list>
   <mat-list-item *ngFor="let item of items">
-    <span>{{item.title}} </span>
+    <span>{{item.title}}</span>
     <mat-star-rating
       [rating]="item.rating"
       starCount="5"
