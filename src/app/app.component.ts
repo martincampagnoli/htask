@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   randomRatingString = this.rrOn;
   items: any[] = [];
   subs: any;
-  randomRating$: Observable;
+  randomRating$: Observable<any>;
 
 
   constructor(private http: HttpClient){
