@@ -22,14 +22,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.randomRating$ = new Observable(function subscribe(subscriber) {
-    const intervalId = setInterval(() => {
-      let randomIndex = Math.floor(Math.random() * 9) + 0;
-      let randomValue = Math.floor(Math.random() * 5) + 1
-      subscriber.next({randomIndex, randomValue});
-    }, 500);
+    this.randomRating$ = new Observable(function subscribe(subscriber, ) {
+      let randomInterval = () => Math.floor(Math.random() * 1000) + 1;
+      const intervalId = setInterval(() => {
+        let randomIndex = Math.floor(Math.random() * 9) + 0;
+        let randomValue = Math.floor(Math.random() * 5) + 1;
+        subscriber.next({randomIndex, randomValue});
+    }, randomInterval());
     return function unsubscribe() {
-      clearInterval(intervalId);
+        clearInterval(intervalId);
       };
     });
     let items$ = this.http.get('../assets/items.json');
