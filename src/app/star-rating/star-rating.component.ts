@@ -11,7 +11,6 @@ export class StarRatingComponent implements OnInit {
 
   @Input('rating') private rating: number;
   @Input('starCount') private starCount: number;
-  @Input('color') private color: string;
   @Output() private ratingUpdated = new EventEmitter();
 
   private snackBarDuration: number = 2000;
@@ -27,7 +26,6 @@ export class StarRatingComponent implements OnInit {
     }
   }
   onClick(rating:number) {
-    console.log(rating)
     this.snackBar.open('You rated ' + rating + ' / ' + this.starCount, '', {
       duration: this.snackBarDuration
     });

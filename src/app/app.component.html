@@ -5,10 +5,18 @@
   </h1>
 </div>
 <h2>Movies</h2>
-<button (click)="toogleRandomRating()"> {{randomRatingString}} Random Rating </button>
+
+<div class="spinner-wrapper">
+  <button class="item" (click)="toogleRandomRating()" [color]="buttonColor" mat-raised-button>{{randomRatingString}} Random Rating
+  </button>
+  <mat-spinner color="warn" *ngIf="rr" [diameter]="40"></mat-spinner>
+</div>
+<br>
+<br>
+
 <mat-list>
   <mat-list-item *ngFor="let item of items">
-    <span>{{item.title}}</span>
+    <span class="item">{{item.title}}</span>
     <mat-star-rating
       [rating]="item.rating"
       starCount="5"
