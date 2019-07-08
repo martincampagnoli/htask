@@ -7,25 +7,27 @@ import { Observable } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent implements OnInit {
-  title = 'htask';
+  title = 'Hexad Task';
   rrOn = 'Start';
   rrOff = 'Stop';
   rr = false;
+  buttonColor = 'primary';
   randomRatingString = this.rrOn;
   items: any[] = [];
   subs: any;
   randomRating$: Observable<any>;
 
-
   constructor(private http: HttpClient){
   }
 
   ngOnInit() {
-    this.randomRating$ = new Observable(function subscribe(subscriber, ) {
-      let randomInterval = () => Math.floor(Math.random() * 1000) + 1;
+
+    this.randomRating$ = new Observable((subscriber) =>{
+      let randomInterval = () => Math.floor(Math.random() * 500) + 1;
       const intervalId = setInterval(() => {
-        let randomIndex = Math.floor(Math.random() * 9) + 0;
+        let randomIndex = Math.floor(Math.random() * this.items.length - 1) + 1;
         let randomValue = Math.floor(Math.random() * 5) + 1;
         subscriber.next({randomIndex, randomValue});
     }, randomInterval());
@@ -33,40 +35,42 @@ export class AppComponent implements OnInit {
         clearInterval(intervalId);
       };
     });
-    let items$ = this.http.get('../assets/items.json');
-    items$.subscribe(
-                response => {
-                        this.items = response as [];
-                        this.items = this.items.map(x => ({ ...x, rating: 1 }));
-                      });
+
+    this.getItems();
   }
 
-  onRatingChanged(rating, item){
+  onRatingChanged(rating: any, item: { rating: any; }){
     item.rating = rating;
-    this._filter();
+    this.filter();
   }
 
   toogleRandomRating(){
-    if (!this.rr) {
-      this.randomRatingString = this.rrOff;
-      this.subs = this.randomRating$.subscribe(r =>{
-        this.onRatingChanged(r.randomValue, this.items[r.randomIndex]);
-      })
-    }
-    else {
-      this.randomRatingString = this.rrOn;
-      this.subs.unsubscribe();
-    }
+    !this.rr ? this.startRandomRating() : this.stopRandomRating();
     this.rr = !this.rr;
   }
 
-  private _filter(){
+  private getItems(){
+    let items$ = this.http.get('../assets/items.json');
+    items$.subscribe(r => {this.items = r as []; this.filter()} );
+  }
+
+  private startRandomRating(){
+    this.randomRatingString = this.rrOff;
+    this.buttonColor = 'warn';
+    this.subs = this.randomRating$.subscribe(r => this.onRatingChanged(r.randomValue, this.items[r.randomIndex]) );
+  }
+
+  private stopRandomRating(){
+    this.randomRatingString = this.rrOn;
+    this.buttonColor = 'primary';
+    this.subs.unsubscribe();
+  }
+
+  private filter(){
     this.items.sort((a, b) => {
         if (a.rating < b.rating) return 1;
         else if (a.rating > b.rating) return -1;
         else return 0;
       });
   }
-
-
 }
