@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'mat-star-rating',
@@ -9,28 +8,23 @@ import { MatSnackBar } from '@angular/material';
 })
 export class StarRatingComponent implements OnInit {
 
-  @Input('rating') private rating: number;
-  @Input('starCount') private starCount: number;
-  @Output() private ratingUpdated = new EventEmitter();
+  @Input('rating') rating: number;
+  @Input('starCount') starCount: number;
+  @Output() ratingUpdated = new EventEmitter();
 
-  private snackBarDuration: number = 2000;
-  private ratingArr = [];
+  ratingArr = [];
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor() {
   }
-
 
   ngOnInit() {
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
   }
+
   onClick(rating:number) {
-    this.snackBar.open('You rated ' + rating + ' / ' + this.starCount, '', {
-      duration: this.snackBarDuration
-    });
     this.ratingUpdated.emit(rating);
-    return false;
   }
 
   showIcon(index:number) {
@@ -40,10 +34,4 @@ export class StarRatingComponent implements OnInit {
       return 'star_border';
     }
   }
-
-}
-export enum StarRatingColor {
-  primary = "primary",
-  accent = "accent",
-  warn = "warn"
 }

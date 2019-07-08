@@ -1,12 +1,20 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
+import { MaterialModule } from './material-module';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        StarRatingComponent
       ],
+      imports: [
+        MaterialModule,
+        HttpClientModule
+      ]
     }).compileComponents();
   }));
 
@@ -19,13 +27,13 @@ describe('AppComponent', () => {
   it(`should have as title 'htask'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('htask');
+    expect(app.title).toEqual('Hexad Task');
   });
 
   it('should render title in a h1 tag', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to htask!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Hexad Task!');
   });
 });
